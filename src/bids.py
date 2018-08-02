@@ -126,7 +126,7 @@ def get_max_bids_df(df, sql_context):
     df_ranked = df.withColumn('rank', dense_rank().over(window))
     better_date_udf = udf(better_date, StringType())
     sql_context.udf.register('better_date', better_date_udf)
-    return df_ranked.filter(df_ranked.rank == 1).selectExpr('MotelId', 'name', 'BidDate', 'country', 'ROUND(price, 2)')
+    return df_ranked.filter(df_ranked.rank == 1).selectExpr('MotelId', 'name', 'better_date(BidDate)', 'country', 'ROUND(price, 2)')
 
 
 if __name__ == '__main__':
