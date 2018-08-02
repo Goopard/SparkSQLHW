@@ -1,0 +1,7 @@
+0000006,Mengo Elegance River Side Hotel,2016-02-26 02:00,MX,1.86
+0000006,Mengo Elegance River Side Hotel,2016-02-26 02:00,CA,1.86
+0000008,Sheraton Moos' Motor Inn,2016-02-25 22:00,MX,1.6
+0000008,Sheraton Moos' Motor Inn,2016-02-25 22:00,CA,1.6
+0000008,Sheraton Moos' Motor Inn,2016-02-25 18:00,MX,1.7
+0000006,Mengo Elegance River Side Hotel,2016-02-26 05:00,US,1.27
+0000006,Mengo Elegance River Side Hotel,2016-02-26 05:00,CA,1.27

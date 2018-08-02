@@ -1,7 +1,6 @@
 import os
 from pyspark import SparkContext, SparkConf, sql
-from pyspark.sql.functions import broadcast
-from pyspark.sql.functions import dense_rank
+from pyspark.sql.functions import broadcast, dense_rank, udf
 from pyspark.sql.window import Window
 from pyspark.sql.types import StructType, StructField, DoubleType, StringType
 from functools import reduce
@@ -25,6 +24,8 @@ SCHEMA = StructType([StructField('MotelId', StringType(), True),
                      StructField('HN', DoubleType(), True),
                      StructField('GY', DoubleType(), True),
                      StructField('GE', DoubleType(), True)])
+INPUT_DIR = '..\\input\\'#'/user/raj_ops/bid_data_large/'
+OUTPUT_DIR = '..\\output\\'#'/user/raj_ops/'
 
 
 os.environ['JAVA_HOME'] = 'C:\\Progra~1\\Java\\jdk1.8.0_181'
@@ -57,7 +58,7 @@ def get_clear_df(df, sql_context):
                          StructField('country', StringType(), True),
                          StructField('price', DoubleType(), True)])
     zero_df = sql_context.createDataFrame([], schema=schema)
-    return reduce(sql.DataFrame.union, country_dfs, zero_df).dropna().selectExpr('MotelId', '')
+    return reduce(sql.DataFrame.union, country_dfs, zero_df).dropna()
 
 
 def get_eur_bids_df(df, path_to_exchange, sql_context):
@@ -101,34 +102,50 @@ def get_motels_names_df(df, path_to_motels, sql_context):
     return df_joined.select('MotelId', 'name', 'BidDate', 'country', 'price')
 
 
-def get_max_bids_df(df):
+def better_date(date):
+    """This function casts the date to a better format.
+
+    :param date: Input date.
+    :type date: str.
+    :return: str.
+    """
+    values = date.split('-')
+    return '-'.join([values[3], values[2], values[1]]) + ' ' + values[0] + ':00'
+
+
+def get_max_bids_df(df, sql_context):
     """This functions returns only the rows with the maximum (all of them) price per date and motel ID.
 
     :param df: Input DataFrame.
     :type df: DataFrame.
+    :param sql_context: SQLContext to use.
+    :type sql_context: SQLContext.
     :return: DataFrame.
     """
     window = Window.partitionBy('BidDate', 'MotelId').orderBy(df.price.desc())
     df_ranked = df.withColumn('rank', dense_rank().over(window))
+    better_date_udf = udf(better_date, StringType())
+    sql_context.udf.register('better_date', better_date_udf)
     return df_ranked.filter(df_ranked.rank == 1).selectExpr('MotelId', 'name', 'BidDate', 'country', 'ROUND(price, 2)')
 
 
-conf = SparkConf().setMaster('yarn').setAppName('test')
-conf.set('spark.executor.memory', '1g')
-conf.set('spark.driver.memory', '1g')
-sc = SparkContext(conf=conf)
-sql_sc = sql.HiveContext(sc)
+if __name__ == '__main__':
+    conf = SparkConf().setMaster('local').setAppName('test')
+    conf.set('spark.executor.memory', '1g')
+    conf.set('spark.driver.memory', '1g')
+    sc = SparkContext(conf=conf)
+    sql_sc = sql.HiveContext(sc)
 
-raw_unclear_bids = sql_sc.read.csv('/user/raj_ops/bid_data/bids.txt', schema=SCHEMA)
-error_bids = get_errors_df(raw_unclear_bids)
-error_bids.write.csv('/user/raj_ops/error_bids')
+    raw_unclear_bids = sql_sc.read.csv(INPUT_DIR + 'bids.txt', schema=SCHEMA)
+    error_bids = get_errors_df(raw_unclear_bids)
+    error_bids.write.csv(OUTPUT_DIR + 'error_bids')
 
-bids = get_clear_df(raw_unclear_bids, sql_sc)
-bids = get_eur_bids_df(bids, '/user/raj_ops/bid_data/exchange_rate.txt', sql_sc)
-bids.write.csv('/user/raj_ops/bids_euro')
+    bids = get_clear_df(raw_unclear_bids, sql_sc)
+    bids = get_eur_bids_df(bids, INPUT_DIR + 'exchange_rate.txt', sql_sc)
+    bids.write.csv(OUTPUT_DIR + 'bids_euro')
 
-bids = get_motels_names_df(bids, '/user/raj_ops/bid_data/motels.txt', sql_sc)
-bids.write.csv('/user/raj_ops/bids_motels')
+    bids = get_motels_names_df(bids, INPUT_DIR + 'motels.txt', sql_sc)
+    bids.write.csv(OUTPUT_DIR + 'bids_motels')
 
-bids = get_max_bids_df(bids).repartition(1)
-bids.write.csv('/user/raj_ops/bids')
+    bids = get_max_bids_df(bids, sql_sc)
+    bids.write.csv(OUTPUT_DIR + 'bids')

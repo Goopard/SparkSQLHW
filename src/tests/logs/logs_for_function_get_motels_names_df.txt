@@ -1,0 +1,17 @@
+Testing started at 9:31 ...
+C:\Users\nicka\PycharmProjects\SparkSQLHW\venv\Scripts\python.exe "C:\Program Files\JetBrains\PyCharm Community Edition 2017.3.4\helpers\pycharm\_jb_unittest_runner.py" --target tests_for_function_get_motels_names_df.Tests.test_first
+Launching unittests with arguments python -m unittest tests_for_function_get_motels_names_df.Tests.test_first in C:\Users\nicka\PycharmProjects\SparkSQLHW\src\tests
+2018-08-02 09:31:12 WARN  NativeCodeLoader:62 - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+C:\Users\nicka\AppData\Local\Programs\Python\Python36-32\lib\socket.py:657: ResourceWarning: unclosed <socket.socket fd=672, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 52163), raddr=('127.0.0.1', 52155)>
+  self._sock = None
+
+
+Ran 1 test in 13.183s
+
+OK
+C:\Users\nicka\AppData\Local\Programs\Python\Python36-32\lib\socket.py:657: ResourceWarning: unclosed <socket.socket fd=772, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 52169), raddr=('127.0.0.1', 52165)>
+  self._sock = None
+
+Process finished with exit code 0

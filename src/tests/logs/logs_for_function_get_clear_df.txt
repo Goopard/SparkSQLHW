@@ -1,0 +1,21 @@
+Testing started at 9:02 ...
+C:\Users\nicka\PycharmProjects\SparkSQLHW\venv\Scripts\python.exe "C:\Program Files\JetBrains\PyCharm Community Edition 2017.3.4\helpers\pycharm\_jb_unittest_runner.py" --path C:/Users/nicka/PycharmProjects/SparkSQLHW/src/tests/tests_for_function_get_clear_df.py
+Launching unittests with arguments python -m unittest C:/Users/nicka/PycharmProjects/SparkSQLHW/src/tests/tests_for_function_get_clear_df.py in C:\Users\nicka\PycharmProjects\SparkSQLHW\src\tests
+2018-08-02 09:02:47 WARN  NativeCodeLoader:62 - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+C:\Users\nicka\AppData\Local\Programs\Python\Python36-32\lib\socket.py:657: ResourceWarning: unclosed <socket.socket fd=780, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 63613), raddr=('127.0.0.1', 63611)>
+  self._sock = None
+C:\Users\nicka\AppData\Local\Programs\Python\Python36-32\lib\socket.py:657: ResourceWarning: unclosed <socket.socket fd=804, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 63616), raddr=('127.0.0.1', 63614)>
+  self._sock = None
+C:\Users\nicka\AppData\Local\Programs\Python\Python36-32\lib\socket.py:657: ResourceWarning: unclosed <socket.socket fd=820, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 63630), raddr=('127.0.0.1', 63622)>
+  self._sock = None
+
+C:\Users\nicka\AppData\Local\Programs\Python\Python36-32\lib\socket.py:657: ResourceWarning: unclosed <socket.socket fd=824, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 63641), raddr=('127.0.0.1', 63631)>
+  self._sock = None
+
+Ran 2 tests in 16.916s
+
+OK
+
+Process finished with exit code 0

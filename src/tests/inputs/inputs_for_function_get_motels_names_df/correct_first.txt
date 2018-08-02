@@ -1,0 +1,12 @@
+0000006,Mengo Elegance River Side Hotel,05-26-02-2016,US,1.27098
+0000008,Sheraton Moos' Motor Inn,18-25-02-2016,US,0.3828
+0000006,Mengo Elegance River Side Hotel,02-26-02-2016,US,1.02675
+0000008,Sheraton Moos' Motor Inn,22-25-02-2016,US,1.28805
+0000006,Mengo Elegance River Side Hotel,05-26-02-2016,MX,0.4605
+0000008,Sheraton Moos' Motor Inn,18-25-02-2016,MX,1.6965
+0000006,Mengo Elegance River Side Hotel,02-26-02-2016,MX,0.35150000000000003
+0000008,Sheraton Moos' Motor Inn,22-25-02-2016,MX,0.40719
+0000006,Mengo Elegance River Side Hotel,05-26-02-2016,CA,0.46971
+0000008,Sheraton Moos' Motor Inn,18-25-02-2016,CA,0.6438
+0000006,Mengo Elegance River Side Hotel,02-26-02-2016,CA,1.8592499999999998
+0000008,Sheraton Moos' Motor Inn,22-25-02-2016,CA,1.6038299999999999
