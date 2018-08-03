@@ -25,7 +25,7 @@ class Tests(unittest.TestCase):
         cls.path_to_exchange = 'inputs\\inputs_for_function_get_eur_bids_df\\exchange_rate.txt'
 
     def test_first(self):
-        result_df = get_max_bids_df(self.first_test_df, self.sql_sc)
+        result_df = get_max_bids_df(self.first_test_df)
         self.assertEqual(set(result_df.collect()), set(self.correct_first.collect()))
 
 

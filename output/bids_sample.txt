@@ -1,0 +1,83 @@
+0000520,Windsor Senado Motel,2015-08-06 12:00:00,MX,1.81
+0001104,Imperial Copacabana Posada,2015-08-06 12:00:00,MX,1.71
+0000101,Novelo Hostel,2015-08-06 13:00:00,MX,0.8
+0000020,Amanhecer Posada,2015-08-06 14:00:00,CA,1.46
+0000768,Geronimo Eas Side Hotelo,2015-08-06 14:00:00,MX,0.69
+0000797,Moon Light Senado Motor Inn,2015-08-06 14:00:00,MX,1.57
+0001105,Big River Tiny Pestana Spa,2015-08-06 16:00:00,CA,1.41
+0000201,Highway Ibiza Hostel,2015-08-06 17:00:00,CA,0.81
+0000381,Saionara Barra la pensi??n,2015-08-06 17:00:00,MX,1.75
+0000864,Pestana Novelo Grand Inn,2015-08-06 22:00:00,CA,1.64
+0000968,Jon's Por Pestana Casa,2015-08-06 23:00:00,US,1.18
+0000006,Pestana Majestic Majestic Boarding House,2015-08-07 00:00:00,CA,1.63
+0000662,Olinda Premier Granja,2015-08-07 01:00:00,MX,1.27
+0000257,River Side Down Town Tavern,2015-08-07 05:00:00,MX,1.56
+0000339,Senado Inn,2015-08-07 05:00:00,MX,1.76
+0000994,Elegance Por Spa,2015-08-07 07:00:00,US,0.96
+0001143,Amanhecer Olinda Casa,2015-08-07 07:00:00,CA,0.61
+0001027,Sheraton Sheraton Inn,2015-08-07 08:00:00,US,1.24
+0001192,Majestic Highway Spa,2015-08-07 08:00:00,CA,1.56
+0000571,Upper Side Imperial Tavern,2015-08-07 10:00:00,US,1.48
+0000322,Windsor Tavern,2015-08-07 11:00:00,MX,0.94
+0000117,Barra Senado Hostel,2015-08-07 12:00:00,CA,1.21
+0001087,Grand Highway Casa,2015-08-07 13:00:00,CA,1.17
+0001122,Elegance Asturias Sun Sine la pensi??n,2015-08-07 13:00:00,CA,1.69
+0000065,Premier River Side Apartments,2015-08-07 14:00:00,US,0.89
+0001031,Eas Side Moos' la pensi??n,2015-08-07 16:00:00,MX,1.68
+0000084,Amanhecer Asturias Hyatt Casino,2015-08-07 18:00:00,US,1.41
+0001075,Village Apartments,2015-08-07 18:00:00,MX,1.46
+0000492,Imperial Village Posada,2015-08-07 19:00:00,US,1.05
+0000937,Premier Moos' Premier Apartments,2015-08-07 19:00:00,US,1.44
+0000698,Upper Side Vermont River Side la pensi??n,2015-08-07 20:00:00,CA,1.68
+0000096,Por Casino,2015-08-07 21:00:00,CA,1.02
+0000081,City Boarding House,2015-08-07 23:00:00,US,1.83
+0000365,Vermont Eas Side Jon's Apartments,2015-08-07 23:00:00,MX,0.94
+0000387,Pestana Highway Casino,2015-08-07 23:00:00,MX,1.13
+0000450,City Grand Sun Sine Hotel,2015-08-07 23:00:00,CA,0.47
+0000199,Premier Spa,2015-08-08 01:00:00,MX,0.66
+0000435,Upper Side Jon's Posada,2015-08-08 01:00:00,CA,2.02
+0001009,Suburbs Vermont Slaviero Motor Inn,2015-08-08 01:00:00,MX,1.78
+0000948,Merlin Imperial Inn,2015-08-08 03:00:00,CA,1.34
+0000975,Elegance City Motor Inn,2015-08-08 03:00:00,US,1.39
+0001052,Geronimo Casino,2015-08-08 04:00:00,CA,1.02
+0000092,Novelo Hyatt Copacabana Hotel,2015-08-08 05:00:00,CA,0.48
+0000961,Down Town Village Casa,2015-08-08 05:00:00,US,1.39
+0000596,Vermont Upper Side Inn,2015-08-08 06:00:00,MX,1.08
+0000861,Imperial Novelo Hotel,2015-08-08 07:00:00,CA,1.38
+0000197,Barra Big River Motor Inn,2015-08-08 09:00:00,CA,1.5
+0000730,Highway Imperial Motel,2015-08-08 10:00:00,US,1.51
+0000936,Ibiza Senado Motor Inn,2015-08-08 10:00:00,US,1.62
+0001050,Elegance Olinda Boarding House,2015-08-08 10:00:00,MX,0.54
+0000357,Grand Copacabana Senado Motor Inn,2015-08-08 11:00:00,MX,1.62
+0000768,Geronimo Eas Side Hotelo,2015-08-08 11:00:00,MX,1.71
+0000156,Jon's Inn,2015-08-08 13:00:00,MX,0.5
+0000719,Windsor Barra Pestana Hostel,2015-08-08 13:00:00,US,0.89
+0000828,Asturias Hyatt la pensi??n,2015-08-08 13:00:00,CA,0.74
+0000868,Majestic Casino,2015-08-08 13:00:00,CA,1.16
+0000081,City Boarding House,2015-08-08 14:00:00,US,1.66
+0001029,Windsor Olinda Motor Inn,2015-08-08 14:00:00,MX,1.29
+0000565,Merlin Hostel,2015-08-08 16:00:00,US,1.5
+0000931,Hyatt Jon's Barra Hotelo,2015-08-08 16:00:00,CA,2.01
+0000926,Copacabana Mengo Windsor Casino,2015-08-08 20:00:00,MX,1.76
+0000416,Sheraton Premier Premier Spa,2015-08-08 21:00:00,CA,0.79
+0000456,Ibiza City Casino,2015-08-08 21:00:00,US,1.09
+0000899,Eas Side Big River Hostel,2015-08-08 21:00:00,US,1.45
+0000142,Mengo City la pensi??n,2015-08-08 23:00:00,CA,1.03
+0000943,River Side Imperial Motel,2015-08-08 23:00:00,CA,1.48
+0001178,Ibiza Hyatt Plaza,2015-08-09 00:00:00,MX,1.57
+0000470,Moos' Geronimo Olinda Apartments,2015-08-09 01:00:00,CA,0.87
+0000696,Saionara Highway Spa,2015-08-09 01:00:00,US,1.2
+0001026,Merlin Suburbs Spa,2015-08-09 01:00:00,CA,1.67
+0001076,Merlin Suburbs Moos' Granja,2015-08-09 01:00:00,MX,1.6
+0001096,Upper Side Elegance Posada,2015-08-09 02:00:00,US,1.75
+0000770,Down Town Big River Boarding House,2015-08-09 04:00:00,US,1.5
+0000008,Geronimo Premier la pensi??n,2015-08-09 05:00:00,US,1.47
+0000414,Down Town Sheraton Senado Posada,2015-08-09 05:00:00,CA,0.89
+0000225,Barra Suburbs Slaviero Casa,2015-08-09 08:00:00,US,1.49
+0000310,Jon's Hotel,2015-08-09 09:00:00,US,1.61
+0000263,Mengo Grand la pensi??n,2015-08-09 11:00:00,MX,1.27
+0000460,Eas Side Hotelo,2015-08-09 11:00:00,US,1.53
+0000866,Tiny Imperial Mengo Casa,2015-08-09 11:00:00,US,1.79
+0000094,Senado Moos' Posada,2015-08-09 12:00:00,MX,1.89
+0000806,Asturias River Side Tavern,2015-08-09 12:00:00,MX,1.14
+0000568,Geronimo Eas Side Casino,2015-08-09 14:00:00,CA,1.84

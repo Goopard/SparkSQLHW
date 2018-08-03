@@ -1,9 +1,10 @@
 import os
 from pyspark import SparkContext, SparkConf, sql
-from pyspark.sql.functions import broadcast, dense_rank, udf
+from pyspark.sql.functions import broadcast, dense_rank, udf, explode, array, isnull, lit, col, expr, unix_timestamp, \
+    from_unixtime
 from pyspark.sql.window import Window
-from pyspark.sql.types import StructType, StructField, DoubleType, StringType
-from functools import reduce
+from pyspark.sql.types import StructType, StructField, DoubleType, StringType, ArrayType
+
 
 COUNTRIES = ['US', 'MX', 'CA']
 SCHEMA = StructType([StructField('MotelId', StringType(), True),
@@ -24,12 +25,12 @@ SCHEMA = StructType([StructField('MotelId', StringType(), True),
                      StructField('HN', DoubleType(), True),
                      StructField('GY', DoubleType(), True),
                      StructField('GE', DoubleType(), True)])
-INPUT_DIR = '..\\input\\'#'/user/raj_ops/bid_data_large/'
-OUTPUT_DIR = '..\\output\\'#'/user/raj_ops/'
+INPUT_DIR = '/user/raj_ops/bid_data_large/'
+OUTPUT_DIR = '/user/raj_ops/'
 
 
-os.environ['JAVA_HOME'] = 'C:\\Progra~1\\Java\\jdk1.8.0_181'
-os.environ['HADOOP_HOME'] = 'C:\\hadoop'
+# os.environ['JAVA_HOME'] = 'C:\\Progra~1\\Java\\jdk1.8.0_181'
+# os.environ['HADOOP_HOME'] = 'C:\\hadoop'
 
 
 def get_errors_df(df):
@@ -42,23 +43,22 @@ def get_errors_df(df):
     return df.filter(df.HU.contains('ERROR')).select('BidDate', 'HU').groupBy('BidDate', 'HU').count()
 
 
-def get_clear_df(df, sql_context):
+def get_clear_df(df):
     """This function returns the clear (errorless) df with rows divided by countries.
 
     :param df: Input DataFrame.
     :type df: DataFrame.
-    :param sql_context: SQLContext to use.
-    :type sql_context: SQLContext.
     :return: DataFrame.
     """
-    clear_df = df.filter(~df.HU.contains('ERROR'))
-    country_dfs = [clear_df.selectExpr('MotelId', 'BidDate', '"{}"'.format(country), country) for country in COUNTRIES]
-    schema = StructType([StructField('MotelId', StringType(), True),
-                         StructField('BidDate', StringType(), True),
-                         StructField('country', StringType(), True),
-                         StructField('price', DoubleType(), True)])
-    zero_df = sql_context.createDataFrame([], schema=schema)
-    return reduce(sql.DataFrame.union, country_dfs, zero_df).dropna()
+    combine = udf(lambda x, y: list(zip(x, y)), ArrayType(StructType([StructField("country", StringType()),
+                                                                      StructField("price", StringType())])))
+    clear_df = df.filter(~df.HU.contains('ERROR') | isnull(df.HU))
+    return clear_df.withColumn('temp', combine(array(list(map(lit, COUNTRIES))), array(COUNTRIES)))\
+        .withColumn('temp', explode('temp'))\
+        .select('MotelId',
+                from_unixtime(unix_timestamp('BidDate', 'HH-dd-MM-yyyy')).alias('BidDate'),
+                col('temp.country').alias('country'),
+                col('temp.price').alias('price'))
 
 
 def get_eur_bids_df(df, path_to_exchange, sql_context):
@@ -76,7 +76,9 @@ def get_eur_bids_df(df, path_to_exchange, sql_context):
                          StructField('curr_long', StringType(), True),
                          StructField('curr_short', StringType(), True),
                          StructField('factor', DoubleType(), True)])
-    exchange_rates = broadcast(sql_context.read.csv(path_to_exchange, schema=schema))
+    exchange_rates = broadcast(sql_context.read.csv(path_to_exchange, schema=schema)
+                               .select(from_unixtime(unix_timestamp('date', 'HH-dd-MM-yyyy')).alias('date'),
+                                       'curr_long', 'curr_short', 'factor'))
     df_joined = df.join(exchange_rates, df.BidDate == exchange_rates.date)
     return df_joined.selectExpr('MotelId', 'BidDate', 'country', 'price * factor AS price')
 
@@ -102,35 +104,20 @@ def get_motels_names_df(df, path_to_motels, sql_context):
     return df_joined.select('MotelId', 'name', 'BidDate', 'country', 'price')
 
 
-def better_date(date):
-    """This function casts the date to a better format.
-
-    :param date: Input date.
-    :type date: str.
-    :return: str.
-    """
-    values = date.split('-')
-    return '-'.join([values[3], values[2], values[1]]) + ' ' + values[0] + ':00'
-
-
-def get_max_bids_df(df, sql_context):
+def get_max_bids_df(df):
     """This functions returns only the rows with the maximum (all of them) price per date and motel ID.
 
     :param df: Input DataFrame.
     :type df: DataFrame.
-    :param sql_context: SQLContext to use.
-    :type sql_context: SQLContext.
     :return: DataFrame.
     """
     window = Window.partitionBy('BidDate', 'MotelId').orderBy(df.price.desc())
     df_ranked = df.withColumn('rank', dense_rank().over(window))
-    better_date_udf = udf(better_date, StringType())
-    sql_context.udf.register('better_date', better_date_udf)
-    return df_ranked.filter(df_ranked.rank == 1).selectExpr('MotelId', 'name', 'better_date(BidDate)', 'country', 'ROUND(price, 2)')
+    return df_ranked.filter(df_ranked.rank == 1).select('MotelId', 'name', 'BidDate', 'country', expr('ROUND(price, 2)'))
 
 
 if __name__ == '__main__':
-    conf = SparkConf().setMaster('local').setAppName('test')
+    conf = SparkConf().setMaster('yarn').setAppName('test')
     conf.set('spark.executor.memory', '1g')
     conf.set('spark.driver.memory', '1g')
     sc = SparkContext(conf=conf)
@@ -140,12 +127,12 @@ if __name__ == '__main__':
     error_bids = get_errors_df(raw_unclear_bids)
     error_bids.write.csv(OUTPUT_DIR + 'error_bids')
 
-    bids = get_clear_df(raw_unclear_bids, sql_sc)
+    bids = get_clear_df(raw_unclear_bids)
     bids = get_eur_bids_df(bids, INPUT_DIR + 'exchange_rate.txt', sql_sc)
     bids.write.csv(OUTPUT_DIR + 'bids_euro')
 
     bids = get_motels_names_df(bids, INPUT_DIR + 'motels.txt', sql_sc)
     bids.write.csv(OUTPUT_DIR + 'bids_motels')
 
-    bids = get_max_bids_df(bids, sql_sc)
+    bids = get_max_bids_df(bids)
     bids.write.csv(OUTPUT_DIR + 'bids')

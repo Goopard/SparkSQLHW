@@ -45,11 +45,11 @@ class Tests(unittest.TestCase):
                                                  schema=cls.correct_schema)
 
     def test_first(self):
-        result_df = get_clear_df(self.first_test_df, self.sql_sc)
+        result_df = get_clear_df(self.first_test_df)
         self.assertEqual(set(result_df.collect()), set(self.correct_first.collect()))
 
     def test_second(self):
-        result_df = get_clear_df(self.second_test_df, self.sql_sc)
+        result_df = get_clear_df(self.second_test_df)
         self.assertEqual(set(result_df.collect()), set(self.correct_second.collect()))
 
 
