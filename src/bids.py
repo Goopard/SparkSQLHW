@@ -58,7 +58,7 @@ def get_clear_df(df):
         .select('MotelId',
                 from_unixtime(unix_timestamp('BidDate', 'HH-dd-MM-yyyy')).alias('BidDate'),
                 col('temp.country').alias('country'),
-                col('temp.price').alias('price'))
+                col('temp.price').alias('price')).dropna()
 
 
 def get_eur_bids_df(df, path_to_exchange, sql_context):
