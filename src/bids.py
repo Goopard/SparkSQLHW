@@ -1,4 +1,3 @@
-import os
 from pyspark import SparkContext, SparkConf, sql
 from pyspark.sql.functions import broadcast, dense_rank, udf, explode, array, isnull, lit, col, expr, unix_timestamp, \
     from_unixtime
@@ -27,10 +26,6 @@ SCHEMA = StructType([StructField('MotelId', StringType(), True),
                      StructField('GE', DoubleType(), True)])
 INPUT_DIR = '/user/raj_ops/bid_data_large/'
 OUTPUT_DIR = '/user/raj_ops/'
-
-
-# os.environ['JAVA_HOME'] = 'C:\\Progra~1\\Java\\jdk1.8.0_181'
-# os.environ['HADOOP_HOME'] = 'C:\\hadoop'
 
 
 def get_errors_df(df):
@@ -76,7 +71,7 @@ def get_eur_bids_df(df, path_to_exchange, sql_context):
                          StructField('curr_long', StringType(), True),
                          StructField('curr_short', StringType(), True),
                          StructField('factor', DoubleType(), True)])
-    exchange_rates = broadcast(sql_context.read.csv(path_to_exchange, schema=schema)
+    exchange_rates = broadcast(sql_context.read.parquet(path_to_exchange, schema=schema)
                                .select(from_unixtime(unix_timestamp('date', 'HH-dd-MM-yyyy')).alias('date'),
                                        'curr_long', 'curr_short', 'factor'))
     df_joined = df.join(exchange_rates, df.BidDate == exchange_rates.date)
@@ -99,7 +94,7 @@ def get_motels_names_df(df, path_to_motels, sql_context):
                          StructField('motel_country', StringType(), True),
                          StructField('url', StringType(), True),
                          StructField('comment', StringType(), True)])
-    motels = broadcast(sql_context.read.csv(path_to_motels, schema=schema))
+    motels = broadcast(sql_context.read.parquet(path_to_motels, schema=schema))
     df_joined = df.join(motels, df.MotelId == motels.id)
     return df_joined.select('MotelId', 'name', 'BidDate', 'country', 'price')
 
@@ -123,16 +118,17 @@ if __name__ == '__main__':
     sc = SparkContext(conf=conf)
     sql_sc = sql.HiveContext(sc)
 
-    raw_unclear_bids = sql_sc.read.csv(INPUT_DIR + 'bids.txt', schema=SCHEMA)
+    raw_unclear_bids = sql_sc.read.parquet(INPUT_DIR + 'bids.parquet', schema=SCHEMA)
     error_bids = get_errors_df(raw_unclear_bids)
     error_bids.write.csv(OUTPUT_DIR + 'error_bids')
 
     bids = get_clear_df(raw_unclear_bids)
-    bids = get_eur_bids_df(bids, INPUT_DIR + 'exchange_rate.txt', sql_sc)
+    bids = get_eur_bids_df(bids, INPUT_DIR + 'exchange_rate.parquet', sql_sc)
     bids.write.csv(OUTPUT_DIR + 'bids_euro')
 
-    bids = get_motels_names_df(bids, INPUT_DIR + 'motels.txt', sql_sc)
+    bids = get_motels_names_df(bids, INPUT_DIR + 'motels.parquet', sql_sc)
     bids.write.csv(OUTPUT_DIR + 'bids_motels')
 
     bids = get_max_bids_df(bids)
     bids.write.csv(OUTPUT_DIR + 'bids')
+    sc.stop()
